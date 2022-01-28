@@ -4,10 +4,10 @@ include("function.php");
 
 $stdObj = new Student();
 
-$data = $stdObj->viewData();
+$data = $stdObj->viewStudent();
 
 if (isset(($_POST['submit']))) {
-    $stdObj->add();
+    $stdObj->addStudent();
 }
 
 // echo var_dump($data);

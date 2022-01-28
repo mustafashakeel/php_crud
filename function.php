@@ -7,7 +7,7 @@ class Student
     private $username  = 'root';
     private $password = 'root';
     private $dbName = 'students';
-    private $port = 8889;
+    // private $port = 8889;
 
     public $conn;
     // Database Connection
@@ -22,7 +22,7 @@ class Student
             return $this->conn;
         }
     }
-    public function viewData()
+    public function viewStudent()
     {
         $sql = "SELECT * FROM students";
         $result = $this->conn->query($sql);
@@ -36,7 +36,7 @@ class Student
             return $data;
         }
     }
-    public function add()
+    public function addStudent()
     {
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
@@ -45,14 +45,22 @@ class Student
         $address = $_POST['address'];
         $course = $_POST['course'];
 
-        $stmt = $this->conn->prepare("INSERT INTO students (first_name, last_name, phone, email, address, course) VALUES (?, ?, ?,?,?,?)");
-        $stmt->bind_param("ssisss", $first_name, $last_name, $phone, $email,  $address,  $course);
+        $sql = "insert into students(first_name, last_name, phone, email, address, course) values('$first_name', '$last_name', '$phone', '$email',  '$address',  '$course')";
 
-        $stmt->execute();
-
-        if ($stmt = true) {
-            echo " Successs";
+        if ($this->conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $this->conn->error;
         }
+
+        // $stmt = $this->conn->prepare("INSERT INTO students (first_name, last_name, phone, email, address, course) VALUES (?, ?, ?,?,?,?)");
+        // $stmt->bind_param("ssisss", $first_name, $last_name, $phone, $email,  $address,  $course);
+
+        // $stmt->execute();
+
+        // if ($stmt = true) {
+        //     echo " Successs";
+        // }
 
 
         // $sql = "INSERT INTO students ( first_name, last_name, phone, email, address, course ) VALUES ( $first_name, $last_name , $phone, $email,  $address,  $course)";
@@ -71,10 +79,10 @@ class Student
         //     echo "Error: " . $sql . "<br>" . $this->conn->error;
         // }
     }
-    public function delete()
+    public function deleteStudent()
     {
     }
-    public function update()
+    public function updateStudent()
     {
     }
 
