@@ -10,6 +10,12 @@ if (isset(($_POST['submit']))) {
     $stdObj->addStudent();
 }
 
+if (isset($_GET['del_id']) && !empty($_GET['del_id'])) {
+
+    $delId = $_GET['del_id'];
+    $stdObj->deleteStudent($delId);
+}
+
 // echo var_dump($data);
 
 
@@ -121,7 +127,7 @@ if (isset(($_POST['submit']))) {
                             <td><?php echo $student['address'] ?></td>
                             <td><?php echo $student['course'] ?></td>
                             <td><a href="edit.php?edit_id=<?php echo $student['id']; ?>"><i class="fas fa-edit"> </i></a>
-                                <a href="index.php?del_id=?<?php echo $student['id']; ?>"><i class="fas fa-trash"></i></a>
+                                <a href="index.php?del_id=<?php echo $student['id']; ?>"><i class="fas fa-trash"></i></a>
                             </td>
 
 

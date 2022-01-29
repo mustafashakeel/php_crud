@@ -45,13 +45,22 @@ class Student
         $address = $_POST['address'];
         $course = $_POST['course'];
 
-        $sql = "insert into students(first_name, last_name, phone, email, address, course) values('$first_name', '$last_name', '$phone', '$email',  '$address',  '$course')";
+        // $sql = "insert into students(first_name, last_name, phone, email, address, course) values('$first_name', '$last_name', '$phone', '$email',  '$address',  '$course')";
 
-        if ($this->conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+        // if ($this->conn->query($sql) === TRUE) {
+        //     echo "New record created successfully";
+        // } else {
+        //     echo "Error: " . $sql . "<br>" . $this->conn->error;
+        // }
+
+
+        $sql = "insert into students(first_name, last_name, phone, email, address, course) values('$first_name', '$last_name','$phone','$email', '$address','$course' )";
+        if ($this->conn->query($sql)) {
+            echo " New Student Added ";
         } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
+            echo " We have an erro " . $this->conn->error;
         }
+
 
         // $stmt = $this->conn->prepare("INSERT INTO students (first_name, last_name, phone, email, address, course) VALUES (?, ?, ?,?,?,?)");
         // $stmt->bind_param("ssisss", $first_name, $last_name, $phone, $email,  $address,  $course);
@@ -79,11 +88,54 @@ class Student
         //     echo "Error: " . $sql . "<br>" . $this->conn->error;
         // }
     }
-    public function deleteStudent()
+    public function deleteStudent($id)
     {
+        $sql = "DELETE FROM students WHERE id = '$id'";
+        $result = $this->conn->query($sql);
+        if ($result) {
+            echo " the Student Record has been deleted";
+            header("Location:index.php");
+        } else {
+            echo " Not able to delete ";
+        }
     }
-    public function updateStudent()
+
+    public function getRecordById($id)
     {
+
+        // display the record of the student by id 
+        $query = "select * from students where id= '$id' limit 1";
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row;
+        } else {
+            echo "No records found";
+        }
+    }
+
+    public function updateStudent($postData)
+    {
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $course = $_POST['course'];
+        $id = $_POST['id'];
+
+        if (!empty($id) && !empty($postData)) {
+
+            $sql = "UPDATE students SET first_name = '$first_name', last_name='$last_name', email='$email', phone='$phone', address='$address', course='$course' WHERE id='$id'";
+
+            $result = $this->conn->query($sql);
+
+            if ($sql == true) {
+                header("Location:index.php");
+            } else {
+                echo " update failed ";
+            }
+        }
     }
 
 
